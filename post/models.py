@@ -77,6 +77,9 @@ class Post(models.Model):
     	s += ', attaches:'+str(self.attaches)
     	return s
 
+    def getAbstract(self):
+    	return self.message
+
 class Attachment(models.Model):
 	ATT_OTHER = 0
 	ATT_IMAGE = 1
@@ -118,9 +121,27 @@ class Attachment(models.Model):
 		s += ', extend:'+str(self.extend)
 		return s
 
+class TagThread(models.Model):
+	tagname = models.CharField(max_length=50, db_index=True)
+	tid = models.BigIntegerField(db_index=True)
+	lastposttime = models.DateTimeField(auto_now=True, db_index=True, blank=True)
+	heats = models.BigIntegerField(db_index=True, default=100, blank=True)
+
+	def __unicode__(self):
+		s = 'tagname:'+str(self.tagname)
+		s += ', tid:'+str(self.tid)
+		s += ', lastposttime:'+str(self.lastposttime)
+		s += ', heats:'+str(self.heats)
+		return s
+
 class Test(models.Model):
 	author = models.ForeignKey(Member)
 	prop = models.CharField(max_length=100)
 
  	def __unicode__(self):
  		return str(self.author) + ', prop:'+str(self.prop)
+
+ 	def testAny(self, obj):
+ 		for ele in obj:
+ 			print ele
+ 		return

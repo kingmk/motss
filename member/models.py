@@ -15,5 +15,7 @@ class Member(models.Model):
     groupid = models.SmallIntegerField(default=0)
     regdate = models.DateTimeField(auto_now_add=True)
 
+    loginip = ''
+
     def __unicode__(self):
     	return self.username+self.email

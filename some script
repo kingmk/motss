@@ -3,9 +3,11 @@ from post.models import Thread
 from post.models import Post
 from post.models import Test
 from post.models import Attachment
+from post.models import TagThread
+from post.postManager import PostManager
 
-author = Member.objects.all()
-author = author[0]
+author = Member.objects.all()[0]
+author.loginip='127.0.0.1'
 
 thread = Thread.objects.all()
 thread = thread[0]
@@ -20,3 +22,7 @@ post = Post(tid=thread.tid, authorname=author.username, authorid=author.uid, sub
 attach = Attachment(uid=1, url='http://www.motss.info/data/attachment/forum/201210/26/221503ik158hh51d1dhh7i.gif', filetype=Attachment.ATT_IMAGE)
 
 test = Test()
+
+pm = PostManager()
+pm.createNewThread(author, 'create from pm', 'the first procedure for createthread')
+pm.createNewThread(author, 'create from pm with tags', 'the first procedure for createthread', 1, None, ['tag1', 'tag2', 'tag3'])
