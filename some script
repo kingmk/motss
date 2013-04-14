@@ -1,0 +1,22 @@
+from member.models import Member
+from post.models import Thread
+from post.models import Post
+from post.models import Test
+from post.models import Attachment
+
+author = Member.objects.all()
+author = author[0]
+
+thread = Thread.objects.all()
+thread = thread[0]
+
+
+
+thread = Thread(authorname=author.username, authorid=author.uid, subject='test create thread')
+
+
+post = Post(tid=thread.tid, authorname=author.username, authorid=author.uid, subject='Post defined subject', message='<b>Any message</b>', useip='127.0.0.1', position=1)
+
+attach = Attachment(uid=1, url='http://www.motss.info/data/attachment/forum/201210/26/221503ik158hh51d1dhh7i.gif', filetype=Attachment.ATT_IMAGE)
+
+test = Test()
