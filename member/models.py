@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Member(models.Model):
-    uid = models.BigIntegerField(primary_key=True)
+    uid = models.AutoField(primary_key=True)
     email = models.EmailField()
     username = models.CharField(max_length=15)
     password = models.CharField(max_length=32)
