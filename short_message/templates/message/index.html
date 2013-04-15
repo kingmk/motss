@@ -1,0 +1,12 @@
+{% if latest_message_list %}
+    <ul>
+    {% for message in latest_message_list %}
+        <li>{{ message.mid }}, {{ message.cid }}, {{ message.content }}, {{ message.send_time }}</li>
+    {% endfor %}
+    {% for chat in latest_chat_list %}
+        <li>{{ chat.cid }}, {{ chat.sender }}, {{ chat.receiver }}, {{ chat.last_time }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No messages are available.</p>
+{% endif %}
