@@ -24,6 +24,14 @@ class Thread(models.Model):
     heats = models.BigIntegerField(db_index=True, default=100, blank=True)
     tags = models.CharField(max_length=500, null=True, blank=True)
 
+    def repliedBy(self, author):
+        self.maxposition += 1
+        self.lastposter = author.username
+        self.lastposterid = author.uid
+        self.replies += 1
+        self.heats = 100
+        return
+
     def __unicode__(self):
     	s = 'tid:'+str(self.tid)
     	s += ', reftid:'+str(self.reftid)

@@ -8,7 +8,7 @@ class PostManager:
 	def createNewThread(self, author, subject, message, readperm=1, attaches=None, tags=None):
 		hasAttach = (attaches!=None)
 		post = Post(authorname=author.username, authorid=author.uid, authorip=author.loginip, \
-			subject=subject, message=message, position=1, hasattach=hasAttach, \
+			subject=subject, message=message, position=0, hasattach=hasAttach, \
 			attaches=attaches, readperm=readperm)
 		thread = Thread(authorname=author.username, authorid=author.uid, subject=subject, \
 			abstract=post.getAbstract(), hasattach=hasAttach, tags=tags)
@@ -20,4 +20,20 @@ class PostManager:
 				tagT = TagThread(tagname=tag, tid=thread.tid, lastposttime=thread.lastposttime, \
 					heats=thread.heats)
 				tagT.save()
-		return
+		return thread
+
+	def replyThread(self, author, tid, subject, message, readperm=1, attaches=None):
+		hasAttach = (attaches!=None)
+		try:
+			thread = Thread.objects.get(tid=tid)
+			thread.repliedBy(author)
+			post = Post(tid=tid, authorname=author.username, authorid=author.uid, authorip=author.loginip, \
+				subject=subject, message=message, position=thread.maxposition, hasattach=hasAttach, \
+				attaches=attaches, readperm=readperm)
+			thread.save()
+			post.save()
+		except Thread.DoesNotExist:
+			return None
+		except:
+			return None
+		return  post
