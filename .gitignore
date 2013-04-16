@@ -1,4 +1,4 @@
 motss/*.pyc
 member/*.pyc
 post/*.pyc
-*/*.pyc
+*.pyc
