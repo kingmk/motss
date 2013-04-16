@@ -1,12 +1,12 @@
-{% if latest_message_list %}
+this is the chat list
+
+{% if chat_list %}
     <ul>
-    {% for message in latest_message_list %}
-        <li>{{ message.mid }}, {{ message.cid }}, {{ message.content }}, {{ message.send_time }}</li>
+    {% for chat in chat_list %}
+        <a href=/message/chat/{{ chat.cid }}><li> {{ chat.uid1 }}, {{ chat.uid2 }}, {{ chat.last_time }}</li></a>
     {% endfor %}
-    {% for chat in latest_chat_list %}
-        <li>{{ chat.cid }}, {{ chat.sender }}, {{ chat.receiver }}, {{ chat.last_time }}</li>
-    {% endfor %}
+
     </ul>
 {% else %}
-    <p>No messages are available.</p>
+    <p>No chats are available.</p>
 {% endif %}

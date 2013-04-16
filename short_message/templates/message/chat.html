@@ -1,0 +1,20 @@
+time:{{ chat.last_time }}<br>
+uid1:{{ chat.uid1 }}<br>
+uid2:{{ chat.uid2 }}<br>
+
+{% if latest_message_list %}
+    <ul>
+    {% for message in latest_message_list %}
+	{% if message.sender == chat.uid1 %}
+		send:
+	{% else %}
+		receive:
+	{% endif %}
+        <li> {{ message.content }}, {{ message.send_time }}</li>
+    {% endfor %}
+
+
+    </ul>
+{% else %}
+    <p>No messages are available.</p>
+{% endif %}
