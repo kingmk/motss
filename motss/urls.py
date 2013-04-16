@@ -5,5 +5,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^member/', include('member.urls', namespace="member")),
-	url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^message/', include('short_message.urls', namespace="short_message")),
 )
