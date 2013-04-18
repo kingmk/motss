@@ -1,39 +1,52 @@
 from member.models import Member
-from post.models import Thread
-from post.models import Post
-from post.models import Attachment
-from post.models import TagThread
+from post.models import Thread, Post, Test, Attachment, TagThread
+from django.db import transaction
 
 class PostManager:
-	def createNewThread(self, author, subject, message, readperm=1, attaches=None, tags=None):
-		hasAttach = (attaches!=None)
-		post = Post(authorname=author.username, authorid=author.uid, authorip=author.loginip, \
+	@transaction.commit_on_success
+	def create_thread(self, author, subject, message, readperm=1, attaches=[], tags=None):
+		hasAttach = (len(attaches)>0)
+		post = Post(author=author, authorip=author.loginip, \
 			subject=subject, message=message, position=0, hasattach=hasAttach, \
-			attaches=attaches, readperm=readperm)
-		thread = Thread(authorname=author.username, authorid=author.uid, subject=subject, \
-			abstract=post.getAbstract(), hasattach=hasAttach, tags=tags)
+			readperm=readperm)
+		thread = Thread(author=author, subject=subject, abstract=post.getAbstract(), \
+			hasattach=hasAttach, tags=tags)
 		thread.save()
-		post.tid = thread.tid
+		post.thread = thread
 		post.save()
+		taglist = []
 		if tags != None:
 			for tag in tags:
-				tagT = TagThread(tagname=tag, tid=thread.tid, lastposttime=thread.lastposttime, \
-					heats=thread.heats)
-				tagT.save()
+				taglist.append(TagThread(tagname=tag, tid=thread.tid, lastposttime=thread.lastposttime, \
+					heats=thread.heats))
+			TagThread.objects.bulk_create(taglist)
 		return thread
 
-	def replyThread(self, author, tid, subject, message, readperm=1, attaches=None):
-		hasAttach = (attaches!=None)
-		try:
-			thread = Thread.objects.get(tid=tid)
-			thread.repliedBy(author)
-			post = Post(tid=tid, authorname=author.username, authorid=author.uid, authorip=author.loginip, \
-				subject=subject, message=message, position=thread.maxposition, hasattach=hasAttach, \
-				attaches=attaches, readperm=readperm)
-			thread.save()
-			post.save()
-		except Thread.DoesNotExist:
+	@transaction.commit_on_success
+	def reply_thread(self, author, tid, subject, message, readperm=1, attaches=[]):
+		hasAttach = (len(attaches)>0)
+		qt = Thread.objects.filter(tid=tid)
+		if not qt.exists():
 			return None
-		except:
-			return None
+		thread = qt.get()
+		position = thread.maxposition
+		thread.replied_by(author)
+		post = Post(thread=thread, author=author, authorip=author.loginip, subject=subject, \
+			message=message, position=position, hasattach=hasAttach, readperm=readperm)
+		post.save()
 		return  post
+
+	def get_thread_posts(self, tid, start, count) :
+		posts = Post.objects.filter(thread_id=tid).order_by('position')[start:start+count].select_related()
+		return posts
+
+	def get_subscribed_threads(self, author, start, count) :
+		tags = author.subscribed_tags()
+		tid_qs = TagThread.objects.filter(tagname__in=tags).order_by('-heats', '-lastposttime').\
+			values('tid').distinct()[start:start+count]
+		tids = []
+		for item in tid_qs:
+			tids.append(item['tid'])
+		threads = Thread.objects.filter(tid__in=tids).order_by('-heats', '-lastposttime').select_related()
+		return threads
+

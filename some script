@@ -1,10 +1,16 @@
 from member.models import Member
-from post.models import Thread
-from post.models import Post
-from post.models import Test
-from post.models import Attachment
-from post.models import TagThread
+from post.models import Thread, Post, Test, Attachment, TagThread
 from post.postManager import PostManager
+from sample import Sample
+
+Sample.insert_member()
+Sample.insert_thread()
+Sample.insert_post()
+Sample.pm_create_thread()
+Sample.pm_reply_thread()
+Sample.pm_get_thread_posts()
+Sample.pm_subscriebed_threads()
+
 
 author = Member.objects.all()[0]
 author.loginip='127.0.0.1'
@@ -24,7 +30,10 @@ attach = Attachment(uid=1, url='http://www.motss.info/data/attachment/forum/2012
 test = Test()
 
 pm = PostManager()
-pm.createNewThread(author, 'create from pm', 'the first procedure for createthread')
-pm.createNewThread(author, 'create from pm with tags', 'the first procedure for createthread', 1, None, ['tag1', 'tag2', 'tag3'])
+pm.create_thread(author, 'create from pm', 'the first procedure for createthread')
+pm.create_thread(author, 'create from pm with tags', 'the first procedure for createthread', 1, [], ['tag2', 'tag3'])
+pm.create_thread(author,'test process of creating thread', 'test process of creating thread message', 1, [], ['tag2', 'tag3'])
 
-pm.replyThread(author, 3, None, 'first ')
+pm.replyThread(author, 3, [], 'first ')
+
+r = TagThread.objects.filter(tagname__in=['tag1', 'tag2']).order_by('-heats','-lastposttime').values('tid').distinct()
