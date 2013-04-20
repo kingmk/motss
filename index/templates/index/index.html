@@ -148,11 +148,11 @@ body {
 #btn_login {
 	text-shadow:0 0 0;
 	display:inline-block;
-	width:60px;
+	width:32px;
 	height:32px;
 	background-color:#85d659;
-	padding-left:7px;
-	padding-right:7px;
+	padding-left:14px;
+	padding-right:14px;
 /* Gecko browsers */
     -moz-border-radius:3px; 
 /* Webkit browsers */
@@ -172,7 +172,6 @@ body {
 	width:208px;
 	height:28px;
 	background-color:#333;
-	color:#999999; 
 	border:0px;
 }
 .olgl {
@@ -271,14 +270,12 @@ body {
 </div>
 <div id="center">
 <div id="indexp">2012.11.24 MOTSS大毅行 @如意尖 >>></div>
-<!--------------------登录框--------------------------->
-<form action="{% url 'index:check' %}" method="post">
-{% csrf_token %}	
+<!--------------------登录框--------------------------->	
 <div id="loginbox">
-   	  <div class="lb1"><input name="username"  class="lbinw" type="text" /></div>
-        <div class="lb1"><input name="password"  class="lbinw" type="password" /></div>
+   	  <div class="lb1"><input name="" class="lbinw" type="text" /></div>
+        <div class="lb1"><input name="" class="lbinw" type="password" /></div>
         <div class="lb1">
-        	 <input type="submit" id="btn_login" value="Login" />
+        	 <span id="btn_login">登录</span>
              <span id="lb11"><input name="autologin" id="alinput" type="checkbox" value="" />自动登录</span>
           <span id="lb12">找回密码</span>
         </div>
@@ -287,7 +284,7 @@ body {
    	  </div>
 	  <div class="lb1"><img class="olgl" src="Images/weibologin.png" width="22" height="18" /><img class="olgl" src="Images/qqlogin.png" width="22" height="18" /></div>
     </div>
-</form>
+
 <!--------------------注册框--------------------------->
 <div id="rgbox">
 		<div id="lginr"><img src="Images/login2.png" width="16" height="53" /></div>

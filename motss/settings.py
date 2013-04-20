@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     'member',
     'post',
     'short_message',
+    'index',
 )
 
 # A sample logging configuration. The only tangible logging
