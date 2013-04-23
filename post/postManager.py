@@ -1,10 +1,16 @@
+from django.db import transaction
+from cgi import escape
 from member.models import Member
 from post.models import Thread, Post, Test, Attachment, TagThread
-from django.db import transaction
+from post.xssparser import XssParser
 
 class PostManager:
 	@transaction.commit_on_success
 	def create_thread(self, author, subject, message, readperm=1, attaches=[], tags=None):
+		subject = escape(subject)
+		xss = XssParser()
+		xss.feed(message)
+		message = xss.result
 		hasAttach = (len(attaches)>0)
 		post = Post(author=author, authorip=author.loginip, \
 			subject=subject, message=message, position=0, hasattach=hasAttach, \
@@ -17,6 +23,7 @@ class PostManager:
 		taglist = []
 		if tags != None:
 			for tag in tags:
+				tag = escape(tag)
 				taglist.append(TagThread(tagname=tag, tid=thread.tid, lastposttime=thread.lastposttime, \
 					heats=thread.heats))
 			TagThread.objects.bulk_create(taglist)
@@ -24,6 +31,10 @@ class PostManager:
 
 	@transaction.commit_on_success
 	def reply_thread(self, author, tid, subject, message, readperm=1, attaches=[]):
+		subject = escape(subject)
+		xss = XssParser()
+		xss.feed(message)
+		message = xss.result
 		hasAttach = (len(attaches)>0)
 		qt = Thread.objects.filter(tid=tid)
 		if not qt.exists():

@@ -1,6 +1,6 @@
 from member.models import Member
 from post.models import Thread, Post, Test, Attachment, TagThread
-from post.postManager import PostManager
+from post.postmanager import PostManager
 from sample import Sample
 
 Sample.insert_member()
