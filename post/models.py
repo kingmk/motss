@@ -1,9 +1,9 @@
 import datetime
 from django.utils import timezone
 from django.db import models
-from member.models import Member
+from member.models import MotssUser
 from django.db.models import F
-from member.models import Member
+
 
 class Attachment(models.Model):
     ATT_OTHER = 0
@@ -20,7 +20,7 @@ class Attachment(models.Model):
     )
 
     aid = models.AutoField(primary_key=True)
-    uploader = models.ForeignKey(Member, related_name='attach', db_index=True)
+    uploader = models.ForeignKey(MotssUser, related_name='attach', db_index=True)
     uploadtime = models.DateTimeField(auto_now_add=True, db_index=True, blank=True)
     url = models.CharField(max_length=1024)
     filename = models.CharField(max_length=1024, default='unknown', blank=True)
@@ -50,10 +50,10 @@ class Thread(models.Model):
     tid = models.AutoField(primary_key=True)
     reftid = models.BigIntegerField(default=-1, null=True, blank=True)
     typeid = models.SmallIntegerField(default=0, db_index=True, blank=True)
-    author = models.ForeignKey(Member, related_name='thread', db_index=True)
+    author = models.ForeignKey(MotssUser, related_name='thread', db_index=True)
     pubtime = models.DateTimeField(auto_now_add=True, db_index=True, blank=True)
     maxposition = models.IntegerField(default=1, blank=True)
-    lastposter = models.ForeignKey(Member, related_name='+', null=True)
+    lastposter = models.ForeignKey(MotssUser, related_name='+', null=True)
     lastposttime = models.DateTimeField(auto_now=True, db_index=True, blank=True)
     subject = models.CharField(max_length=400)
     abstract = models.CharField(max_length=400, null=True, blank=True)
@@ -92,7 +92,7 @@ class Thread(models.Model):
 class Post(models.Model):
     pid = models.AutoField(primary_key=True)
     thread = models.ForeignKey(Thread, related_name='post', db_index=True)
-    author = models.ForeignKey(Member, related_name='post', db_index=True)
+    author = models.ForeignKey(MotssUser, related_name='post', db_index=True)
     authorip = models.CharField(max_length=100, null=True)
     pubtime = models.DateTimeField(auto_now_add=True, db_index=True, blank=True)
     subject = models.CharField(max_length=400, null=True)
@@ -136,7 +136,7 @@ class TagThread(models.Model):
 		return s
 
 class Test(models.Model):
-	author = models.ForeignKey(Member)
+	author = models.ForeignKey(MotssUser)
 	prop = models.CharField(max_length=100)
 
  	def __unicode__(self):

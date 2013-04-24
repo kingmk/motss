@@ -1,6 +1,6 @@
 from django.db import transaction
 from cgi import escape
-from member.models import Member
+from member.models import MotssUser
 from post.models import Thread, Post, Test, Attachment, TagThread
 from post.xssparser import XssParser
 
@@ -51,13 +51,13 @@ class PostManager:
 		posts = Post.objects.filter(thread_id=tid).order_by('position')[start:start+count].select_related()
 		return posts
 
-	def get_subscribed_threads(self, author, start, count) :
-		tags = author.subscribed_tags()
-		tid_qs = TagThread.objects.filter(tagname__in=tags).order_by('-heats', '-lastposttime').\
-			values('tid').distinct()[start:start+count]
-		tids = []
-		for item in tid_qs:
-			tids.append(item['tid'])
-		threads = Thread.objects.filter(tid__in=tids).order_by('-heats', '-lastposttime').select_related()
-		return threads
+#	def get_subscribed_threads(self, author, start, count) :
+#		tags = author.subscribed_tags()
+#		tid_qs = TagThread.objects.filter(tagname__in=tags).order_by('-heats', '-lastposttime').\
+#			values('tid').distinct()[start:start+count]
+#		tids = []
+#		for item in tid_qs:
+#			tids.append(item['tid'])
+#		threads = Thread.objects.filter(tid__in=tids).order_by('-heats', '-lastposttime').select_related()
+#		return threads
 

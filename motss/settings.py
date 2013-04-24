@@ -6,6 +6,8 @@ PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+AUTH_USER_MODEL = 'member.MotssUser'
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
