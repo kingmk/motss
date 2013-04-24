@@ -1,7 +1,7 @@
-from member.models import MotssUser
+from member.models import MotssUser, MotssProfile, MotssFollow
+from member.membermanager import MemberManager
 from post.models import Thread, Post, Test, Attachment, TagThread
 from post.postmanager import PostManager
-
 
 class Sample:
 
@@ -52,6 +52,23 @@ class Sample:
 		pm = PostManager()
 		posts = pm.get_thread_posts(thread.tid, 0, 20)
 		return posts
+
+	@classmethod
+	def mm_follow(cls):
+		users = MotssUser.objects.all()
+		user1 = users[0]
+		user2 = users[3]
+		mm = MemberManager()
+		follow_relation = mm.follow(user1, user2.id)
+		return follow_relation
+
+	@classmethod
+	def mm_get_user_follows(cls):
+		user = MotssUser.objects.all()[0]
+		mm = MemberManager()
+		follows = mm.get_user_follows(user, 0, 10)
+		return follows
+
 
 #	@classmethod
 #	def pm_subscriebed_threads(cls):

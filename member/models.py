@@ -41,6 +41,13 @@ class MotssFollow(models.Model):
     follow = models.ForeignKey(MotssUser, related_name='follow')
     createtime = models.DateTimeField(auto_now_add=True)
 
+    def __unicode__(self):
+        s = 'id:'+str(self.id)
+        s += ', user_id:'+str(self.user_id)
+        s += ', follow_id:'+str(self.follow_id)
+        s += ', createtime:'+str(self.createtime)
+        return s
+
 def default_subscribe():
     subs = ['tag1', 'tag2', 'tag3']
     return json.dumps(subs)

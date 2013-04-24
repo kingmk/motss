@@ -11,6 +11,9 @@ Sample.pm_reply_thread()
 Sample.pm_get_thread_posts()
 Sample.pm_subscriebed_threads()
 
+from sample import Sample
+Sample.mm_follow()
+Sample.mm_get_user_follows()
 
 author = Member.objects.all()[0]
 author.loginip='127.0.0.1'
@@ -37,3 +40,15 @@ pm.create_thread(author,'test process of creating thread', 'test process of crea
 pm.replyThread(author, 3, [], 'first ')
 
 r = TagThread.objects.filter(tagname__in=['tag1', 'tag2']).order_by('-heats','-lastposttime').values('tid').distinct()
+
+
+MotssFollow.objects.filter(user_id=5, follow_id=6)
+
+
+from member.membermanager import MemberManager
+mm = MemberManager()
+from member.models import MotssUser
+followee = MotssUser(id=6)
+mm.get_user_followers(followee,0,10)
+
+
