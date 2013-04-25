@@ -41,6 +41,9 @@ class MotssFollow(models.Model):
     follow = models.ForeignKey(MotssUser, related_name='follow')
     createtime = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        unique_together = ("user", "follow")
+
     def __unicode__(self):
         s = 'id:'+str(self.id)
         s += ', user_id:'+str(self.user_id)
