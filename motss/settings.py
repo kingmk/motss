@@ -1,5 +1,11 @@
 # Django settings for motss project.
 import os
+import djcelery
+
+djcelery.setup_loader()
+
+#BROKER_URL = 'amqp://guest:guest@localhost:5672/'
+BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 
@@ -34,7 +40,7 @@ ALLOWED_HOSTS = []
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'Asia/Hong_kong'
+TIME_ZONE = 'Asia/Chongqing'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -135,7 +141,12 @@ INSTALLED_APPS = (
     'post',
     'short_message',
     'index',
+    'djcelery',
+    'asyncq',
 )
+
+CELERY_RESULT_BACKEND = "amqp"
+CELERY_IMPORTS = ("asyncq.task", )
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
