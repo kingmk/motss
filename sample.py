@@ -136,6 +136,7 @@ class Sample:
 		from post.exceptions import PostException, IllegalContentException, \
 		NoSuchThreadException, ThreadDeletedException, ThreadClosedException, \
 		AttachOverSizedException, AttachUnsupportException
+
 		base_e = NotImplementedError('base error')
 		try:
 			raise PostException(cause=base_e)
