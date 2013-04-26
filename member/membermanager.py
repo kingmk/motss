@@ -14,6 +14,17 @@ class MemberManager:
 
 		return mfollow
 
+	def unfollow(self, user, follow_id):
+		if user.id==follow_id:
+			return False
+		qt = MotssFollow.objects.filter(user=user, follow_id=follow_id)
+		if qt.exists():
+			qt.delete()
+			return True
+
+		return False
+
+
 	def has_follow(self, user, follow_id):
 		qt = MotssFollow.objects.filter(user=user, follow_id=follow_id)
 		return qt.exists()

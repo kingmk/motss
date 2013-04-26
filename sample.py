@@ -76,3 +76,104 @@ class Sample:
 #		pm = PostManager()
 #		threads = pm.get_subscribed_threads(author, 0, 20)
 #		return threads
+	@classmethod
+	def exception_user(cls):
+		from member.exceptions import UserException, DuplicateException, \
+		RegisterException, NoUserLoginException, WrongPasswordException,\
+		FollowNoUserException, FollowedException, FollowDeniedException
+
+		base_e = NotImplementedError('base error')
+		try:
+			raise UserException(cause=base_e)
+		except UserException, e:
+			print e
+			print e.msg
+
+		try:
+			raise DuplicateException(cause=base_e, username='testuser')
+		except DuplicateException, e:
+			print e
+			print e.msg
+
+		try:
+			raise RegisterException(cause=base_e, note='Password wrong')
+		except RegisterException, e:
+			print e
+			print e.msg
+
+		try:
+			raise NoUserLoginException(cause=base_e, username='testuser')
+		except NoUserLoginException, e:
+			print e
+			print e.msg
+
+		try:
+			raise WrongPasswordException(cause=base_e)
+		except WrongPasswordException, e:
+			print e
+			print e.msg
+
+		try:
+			raise FollowNoUserException(cause=base_e, username='testuser')
+		except FollowNoUserException, e:
+			print e
+			print e.msg
+
+		try:
+			raise FollowedException(cause=base_e, username='testuser')
+		except FollowedException, e:
+			print e
+			print e.msg
+			
+		try:
+			raise FollowDeniedException(cause=base_e, username='testuser')
+		except FollowDeniedException, e:
+			print e
+			print e.msg
+
+	@classmethod
+	def exception_post(cls):
+		from post.exceptions import PostException, IllegalContentException, \
+		NoSuchThreadException, ThreadDeletedException, ThreadClosedException, \
+		AttachOverSizedException, AttachUnsupportException
+		base_e = NotImplementedError('base error')
+		try:
+			raise PostException(cause=base_e)
+		except PostException, e:
+			print e
+			print e.msg
+
+		try:
+			raise IllegalContentException(cause=base_e, malcontent='test')
+		except PostException, e:
+			print e
+			print e.msg
+
+		try:
+			raise NoSuchThreadException(cause=base_e, tid=111)
+		except PostException, e:
+			print e
+			print e.msg
+
+		try:
+			raise ThreadDeletedException(cause=base_e, tid=111)
+		except PostException, e:
+			print e
+			print e.msg
+		try:
+			raise ThreadClosedException(cause=base_e, tid=111)
+		except PostException, e:
+			print e
+			print e.msg
+
+		try:
+			raise AttachOverSizedException(cause=base_e, size=199982)
+		except PostException, e:
+			print e
+			print e.msg
+
+		try:
+			raise AttachUnsupportException(cause=base_e, attach_type='mmp')
+		except PostException, e:
+			print e
+			print e.msg
