@@ -6,7 +6,8 @@ USER_ERRCODE = {
 	4 : 'Unable to login with wrong password.', # WrongPasswordException
 	5 : 'The user to follow does not exist.', # FollowNoUserException
 	6 : 'The user has already been followed.', # FollowedException
-	7 : 'The user forbid others to follow him.' # FollowDeniedException
+	7 : 'The user forbid others to follow him.', # FollowDeniedException
+	8 : 'Cannot follow yourself.' # FollowSelfException
 }
 
 class UserException(Exception):
@@ -63,3 +64,8 @@ class FollowDeniedException(UserException):
 		msg = '%s Denied by user: %s'%(USER_ERRCODE[self.code], username)
 		super(FollowDeniedException, self).__init__(msg, cause)
 
+class FollowSelfException(UserException):
+	code = 8
+	def __init__(self, cause=None):
+		msg = USER_ERRCODE[self.code]
+		super(FollowSelfException, self).__init__(msg, cause)

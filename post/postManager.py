@@ -3,6 +3,10 @@ from cgi import escape
 from member.models import MotssUser
 from post.models import Thread, Post, Test, Attachment, TagThread
 from post.xssparser import XssParser
+from post.exceptions import PostException, IllegalContentException, \
+	NoSuchThreadException, ThreadDeletedException, ThreadClosedException, \
+	AttachOverSizedException, AttachUnsupportException
+
 
 class PostManager:
 	@transaction.commit_on_success
@@ -17,16 +21,23 @@ class PostManager:
 			readperm=readperm)
 		thread = Thread(author=author, subject=subject, abstract=post.getAbstract(), \
 			hasattach=hasAttach, tags=tags)
-		thread.save()
-		post.thread = thread
-		post.save()
+		try :
+			thread.save()
+			post.thread = thread
+			post.save()
+		except Exception, e:
+			raise PostException(cause=e)
+
 		taglist = []
 		if tags != None:
 			for tag in tags:
 				tag = escape(tag)
 				taglist.append(TagThread(tagname=tag, tid=thread.tid, lastposttime=thread.lastposttime, \
 					heats=thread.heats))
-			TagThread.objects.bulk_create(taglist)
+			try:
+				TagThread.objects.bulk_create(taglist)
+			except Exception, e:
+				raise PostException(cause=e)
 		return thread
 
 	@transaction.commit_on_success
@@ -38,16 +49,23 @@ class PostManager:
 		hasAttach = (len(attaches)>0)
 		qt = Thread.objects.filter(tid=tid)
 		if not qt.exists():
-			return None
+			raise NoSuchThreadException(tid=tid)
 		thread = qt.get()
 		position = thread.maxposition
-		thread.replied_by(author)
-		post = Post(thread=thread, author=author, authorip=author.loginip, subject=subject, \
-			message=message, position=position, hasattach=hasAttach, readperm=readperm)
-		post.save()
+		try:
+			thread.replied_by(author)
+			post = Post(thread=thread, author=author, authorip=author.loginip, subject=subject, \
+				message=message, position=position, hasattach=hasAttach, readperm=readperm)
+			post.save()
+		except Exception, e:
+			raise PostException(cause=e)
+
 		return  post
 
 	def get_thread_posts(self, tid, start, count) :
+		qt = Thread.objects.filter(tid=tid)
+		if not qt.exists():
+			raise NoSuchThreadException(tid=tid)
 		posts = Post.objects.filter(thread_id=tid).order_by('position')[start:start+count].select_related()
 		return posts
 
