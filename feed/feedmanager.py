@@ -5,7 +5,7 @@ from member.models import MotssUser, MotssFollow
 
 class FeedManager(object):
 	
-	def send_feed(self, sender_id, thread_id, post_id, ftype):
+	def send_feeds(self, sender_id, thread_id, post_id, ftype):
 		follows = MotssFollow.objects.filter(follow_id=sender_id)
 		follower_ids = []
 		for follow in follows:
@@ -29,3 +29,4 @@ class FeedManager(object):
 				post_id=post_id, ftype=ftype)
 			insert_feeds.append(feed)
 		Feed.objects.bulk_create(insert_feeds)
+		return follower_ids

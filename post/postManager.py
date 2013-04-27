@@ -6,6 +6,12 @@ from post.xssparser import XssParser
 from post.exceptions import PostException, IllegalContentException, \
 	NoSuchThreadException, ThreadDeletedException, ThreadClosedException, \
 	AttachOverSizedException, AttachUnsupportException
+from asyncq.task import send_feeds
+
+FTYPE_OTHER = 0
+FTYPE_CREATE = 1
+FTYPE_REPLY = 2
+FTYPE_AT = 3
 
 
 class PostManager:
@@ -38,6 +44,8 @@ class PostManager:
 				TagThread.objects.bulk_create(taglist)
 			except Exception, e:
 				raise PostException(cause=e)
+
+		send_feeds.delay(author.id, thread.tid, post.pid, FTYPE_CREATE)
 		return thread
 
 	@transaction.commit_on_success
@@ -60,6 +68,7 @@ class PostManager:
 		except Exception, e:
 			raise PostException(cause=e)
 
+		send_feeds.delay(author.id, tid, post.pid, FTYPE_REPLY)
 		return  post
 
 	def get_thread_posts(self, tid, start, count) :

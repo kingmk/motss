@@ -34,16 +34,16 @@ class Sample:
 	def pm_create_thread(cls):
 		author = MotssUser.objects.all()[1]
 		pm = PostManager()
-		thread = pm.create_thread(author,'test process of creating thread', 'test process of creating thread message', 1, [], ['tag2', 'tag3'])
+		thread = pm.create_thread(author,'test feeds sending', 'test feeds sending', 1, [], ['tag1', 'tag4'])
 		return thread
 
 	@classmethod
 	def pm_reply_thread(cls):
 		author = MotssUser.objects.all()[1]
-		thread = Thread.objects.all()[1]
+		thread = Thread.objects.all()[2]
 		pm = PostManager()
-		post = pm.reply_thread(author, thread.tid, 'test process of replying thread', \
-			'test process of replying thread message')
+		post = pm.reply_thread(author, thread.tid, 'test feeds sending', \
+			'test feeds sending')
 		return post
 
 	@classmethod
