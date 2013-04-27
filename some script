@@ -51,4 +51,10 @@ from member.models import MotssUser
 followee = MotssUser(id=6)
 mm.get_user_followers(followee,0,10)
 
+from member.models import MotssUser
+user1 = MotssUser.objects.all()[1]
+user2 = MotssUser.objects.all()[3]
 
+from member.membermanager import MemberManager
+mm = MemberManager()
+mm.follow(user1, user2.id)

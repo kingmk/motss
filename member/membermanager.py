@@ -1,6 +1,7 @@
 from django.db import transaction
 from member.models import MotssUser, MotssProfile, MotssFollow
 from django.db import IntegrityError
+from django.db.models import F
 from member.exceptions import UserException, DuplicateException, \
 	RegisterException, NoUserLoginException, WrongPasswordException,\
 	FollowNoUserException, FollowedException, FollowDeniedException,\
@@ -17,10 +18,15 @@ class MemberManager:
 		else :
 			raise UserException(cause=error)
 
-
+	@transaction.commit_on_success
 	def follow(self, user, follow_id):
 		if user.id==follow_id:
 			raise FollowSelfException()
+
+		try:
+			followee = MotssUser.objects.filter(id=follow_id).get()
+		except Exception, e:
+			raise FollowNoUserException(cause=e, username=str(follow_id))
 
 		mfollow = MotssFollow(user=user, follow_id=follow_id)
 		try:
@@ -30,17 +36,34 @@ class MemberManager:
 		except Exception, e:
 			raise UserException(cause=e)
 
+		try:
+			user.inc_follow(1)
+			followee.inc_follower(1)
+		except Exception, e:
+			raise UserException(cause=e)
 		return mfollow
 
+	@transaction.commit_on_success
 	def unfollow(self, user, follow_id):
 		if user.id==follow_id:
 			raise FollowSelfException()
+
+		try:
+			followee = MotssUser.objects.filter(id=follow_id).get()
+		except Exception, e:
+			raise FollowNoUserException(cause=e, username=str(follow_id))
+
 		qt = MotssFollow.objects.filter(user=user, follow_id=follow_id)
 		if qt.exists():
 			qt.delete()
 		else:
 			raise UserException()
 
+		try:
+			user.inc_follow(-1)
+			followee.inc_follower(-1)
+		except Exception, e:
+			raise UserException(cause=e)
 
 	def has_follow(self, user, follow_id):
 		qt = MotssFollow.objects.filter(user=user, follow_id=follow_id)

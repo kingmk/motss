@@ -140,6 +140,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'member',
     'post',
+    'feed',
     'short_message',
     'index',
     'djcelery',

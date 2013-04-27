@@ -1,6 +1,7 @@
 import datetime
 from django.utils import timezone
 from django.db import models
+from django.db.models import F
 from django.contrib.auth.models import AbstractUser
 import json
 
@@ -8,6 +9,8 @@ DEFAULT_AVATAR = '/statics/images/default_avartar.png'
 
 class MotssUser(AbstractUser):
     avatarurl = models.CharField(max_length=250, default=DEFAULT_AVATAR)
+    follow_count = models.IntegerField(default=0, db_index=True)
+    follower_count = models.IntegerField(default=0, db_index=True)
     loginip = ''
 
     @classmethod
@@ -30,6 +33,13 @@ class MotssUser(AbstractUser):
         s += ', avatarurl:'+str(self.avatarurl)
         return s
 
+    def inc_follow(self, count):
+        self.follow_count = F('follow_count')+count
+        self.save(update_fields=['follow_count'])
+
+    def inc_follower(self, count):
+        self.follower_count = F('follower_count')+count
+        self.save(update_fields=['follower_count'])
 
 class MotssProfile(models.Model):
     user = models.OneToOneField(MotssUser)
