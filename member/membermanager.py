@@ -4,7 +4,7 @@ from django.db import IntegrityError
 from django.db.models import F
 from member.exceptions import UserException, DuplicateException, \
 	RegisterException, NoUserLoginException, WrongPasswordException,\
-	FollowNoUserException, FollowedException, FollowDeniedException,\
+	NoSuchUserException, FollowedException, FollowDeniedException,\
 	FollowSelfException
 
 
@@ -14,7 +14,7 @@ class MemberManager:
 		if code == 1062:
 			raise FollowedException(cause=error, username=username)
 		elif code == 1452:
-			raise FollowNoUserException(cause=error, username=username)
+			raise NoSuchUserException(cause=error, username=username)
 		else :
 			raise UserException(cause=error)
 
@@ -26,7 +26,7 @@ class MemberManager:
 		try:
 			followee = MotssUser.objects.filter(id=follow_id).get()
 		except Exception, e:
-			raise FollowNoUserException(cause=e, username=str(follow_id))
+			raise NoSuchUserException(cause=e, username=str(follow_id))
 
 		mfollow = MotssFollow(user=user, follow_id=follow_id)
 		try:
@@ -51,7 +51,7 @@ class MemberManager:
 		try:
 			followee = MotssUser.objects.filter(id=follow_id).get()
 		except Exception, e:
-			raise FollowNoUserException(cause=e, username=str(follow_id))
+			raise NoSuchUserException(cause=e, username=str(follow_id))
 
 		qt = MotssFollow.objects.filter(user=user, follow_id=follow_id)
 		if qt.exists():

@@ -4,7 +4,7 @@ USER_ERRCODE = {
 	2 : 'Incorrectly fill in registration information.', # RegisterException
 	3 : 'Unable to login with a wrong username. ', # NoUserLoginException
 	4 : 'Unable to login with wrong password.', # WrongPasswordException
-	5 : 'The user to follow does not exist.', # FollowNoUserException
+	5 : 'The user does not exist.', # NoSuchUserException
 	6 : 'The user has already been followed.', # FollowedException
 	7 : 'The user forbid others to follow him.', # FollowDeniedException
 	8 : 'Cannot follow yourself.' # FollowSelfException
@@ -46,11 +46,11 @@ class WrongPasswordException(UserException):
 		msg = USER_ERRCODE[self.code]
 		super(WrongPasswordException, self).__init__(msg, cause)
 
-class FollowNoUserException(UserException):
+class NoSuchUserException(UserException):
 	code = 5
 	def __init__(self, cause=None, username=''):
 		msg = '%s User "%s" not exists'%(USER_ERRCODE[self.code], username)
-		super(FollowNoUserException, self).__init__(msg, cause)
+		super(NoSuchUserException, self).__init__(msg, cause)
 
 class FollowedException(UserException):
 	code = 6

@@ -2,6 +2,8 @@ from member.models import MotssUser, MotssProfile, MotssFollow
 from member.membermanager import MemberManager
 from post.models import Thread, Post, Test, Attachment, TagThread
 from post.postmanager import PostManager
+from feed.models import Feed
+from feed.feedmanager import FeedManager
 
 class Sample:
 
@@ -34,7 +36,8 @@ class Sample:
 	def pm_create_thread(cls):
 		author = MotssUser.objects.all()[1]
 		pm = PostManager()
-		thread = pm.create_thread(author,'test feeds sending', 'test feeds sending', 1, [], ['tag1', 'tag4'])
+		thread = pm.create_thread(author,'test feeds sending with at',\
+		 'test feeds sending @yuxinjin @nonexist @test002', 1, [], ['tag1', 'tag4'])
 		return thread
 
 	@classmethod
@@ -43,7 +46,7 @@ class Sample:
 		thread = Thread.objects.all()[2]
 		pm = PostManager()
 		post = pm.reply_thread(author, thread.tid, 'test feeds sending', \
-			'test feeds sending')
+			'test feeds sending @yuxinjin @nonexist @test002')
 		return post
 
 	@classmethod
@@ -69,6 +72,17 @@ class Sample:
 		follows = mm.get_user_follows(user, 0, 10)
 		return follows
 
+	@classmethod
+	def fm_get_feeds(cls):
+		fm = FeedManager()
+		posts = Post.objects.all().order_by('-pubtime')
+		timestamp = posts[0].pubtime
+		type_list = [0, 1, 2, 3]
+		feeds = fm.get_feeds(6, type_list)
+		print feeds
+
+		feeds = fm.get_feeds(6, type_list, timestamp)
+		print feeds
 
 #	@classmethod
 #	def pm_subscriebed_threads(cls):
@@ -80,7 +94,7 @@ class Sample:
 	def exception_user(cls):
 		from member.exceptions import UserException, DuplicateException, \
 		RegisterException, NoUserLoginException, WrongPasswordException,\
-		FollowNoUserException, FollowedException, FollowDeniedException
+		NoSuchUserException, FollowedException, FollowDeniedException
 
 		base_e = NotImplementedError('base error')
 		try:
@@ -114,8 +128,8 @@ class Sample:
 			print e.msg
 
 		try:
-			raise FollowNoUserException(cause=base_e, username='testuser')
-		except FollowNoUserException, e:
+			raise NoSuchUserException(cause=base_e, username='testuser')
+		except NoSuchUserException, e:
 			print e
 			print e.msg
 

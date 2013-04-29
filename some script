@@ -58,3 +58,20 @@ user2 = MotssUser.objects.all()[3]
 from member.membermanager import MemberManager
 mm = MemberManager()
 mm.follow(user1, user2.id)
+
+s = u'<a href="dddagedd.html" onmouseover="xss()">data in atag</a>data in nontag<span><a href="ttt">@test002 datain</a> @test001 @test222 @yuxinjin <li>spantag</li></span>'
+
+from post.xssparser import XssParser
+xp = XssParser()
+xp.feed(s)
+xp.result
+
+Feed.objects.filter(recvid=6, ishistory=False, \
+			ftype__in=[0,1,2,3]).order_by('-createtime').select_related()
+
+
+posts = Post.objects.all().order_by('-pubtime')
+post[0].pubtime
+from feed.feedmanager import FeedManager
+fm = FeedManager()
+

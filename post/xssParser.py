@@ -4,6 +4,8 @@ from urlparse import urlparse
 from formatter import AbstractFormatter
 from htmlentitydefs import entitydefs
 from xml.sax.saxutils import quoteattr
+from member.models import MotssUser
+import re
 
 def xssescape(text):
     return escape(text, quote=True).replace(':','&#58;')
@@ -13,6 +15,7 @@ class XssParser(HTMLParser):
         HTMLParser.__init__(self, fmt)
         self.result = ""
         self.open_tags = []
+        self.at_users = []
 
         self.permitted_tags = ['a', 'b', 'blockquote', 'br', 'i', 
         					'li', 'ol', 'ul', 'p', 'cite', 'span']
@@ -26,15 +29,35 @@ class XssParser(HTMLParser):
              'span':['style']}
 
         self.allowed_schemes = ['http','https','ftp']
+
+    def clear(self) :
+        self.result = ''
+        self.at_users = []
+
+    def replace_at_user(self, matchobj) :
+        matchstr = matchobj.group(0)
+        username = matchstr[1:]
+        rq = MotssUser.objects.values('id', 'username').filter(username=username)
+        if rq.exists():
+            self.at_users.append(rq.get())
+            return '<a href="">%s</a>'%matchstr
+        else:
+            return matchstr
+
     def handle_data(self, data):
         if data:
-            self.result += xssescape(data)
+            data = xssescape(data)
+            if 'a' not in self.open_tags:
+                pattern = '@[^\s]*'
+                data = re.sub(pattern, self.replace_at_user, data)
+            self.result += data
+
     def handle_charref(self, ref):
         if len(ref) < 7 and ref.isdigit():
             self.result += '&#%s;' % ref
         else:
             self.result += xssescape('&#%s' % ref)
-    def handle_entityref(self, ref):
+    def handle_entityref(self, entitydefs):
         if ref in entitydefs:
             self.result += '&%s;' % ref
         else:
@@ -64,7 +87,6 @@ class XssParser(HTMLParser):
             if tag in self.requires_no_close:
                 bt += "/"
             bt += ">"
-            print bt             
             self.result += bt
             self.open_tags.insert(0, tag)
             

@@ -6,13 +6,11 @@ from post.xssparser import XssParser
 from post.exceptions import PostException, IllegalContentException, \
 	NoSuchThreadException, ThreadDeletedException, ThreadClosedException, \
 	AttachOverSizedException, AttachUnsupportException
-from asyncq.task import send_feeds
+from asyncq.task import thread_feeds
 
 FTYPE_OTHER = 0
 FTYPE_CREATE = 1
 FTYPE_REPLY = 2
-FTYPE_AT = 3
-
 
 class PostManager:
 	@transaction.commit_on_success
@@ -21,6 +19,8 @@ class PostManager:
 		xss = XssParser()
 		xss.feed(message)
 		message = xss.result
+		at_users = xss.at_users
+		print at_users
 		hasAttach = (len(attaches)>0)
 		post = Post(author=author, authorip=author.loginip, \
 			subject=subject, message=message, position=0, hasattach=hasAttach, \
@@ -45,7 +45,7 @@ class PostManager:
 			except Exception, e:
 				raise PostException(cause=e)
 
-		send_feeds.delay(author.id, thread.tid, post.pid, FTYPE_CREATE)
+		thread_feeds.delay(author.id, thread.tid, post.pid, FTYPE_CREATE, at_users)
 		return thread
 
 	@transaction.commit_on_success
@@ -54,6 +54,8 @@ class PostManager:
 		xss = XssParser()
 		xss.feed(message)
 		message = xss.result
+		at_users = xss.at_users
+		print at_users
 		hasAttach = (len(attaches)>0)
 		qt = Thread.objects.filter(tid=tid)
 		if not qt.exists():
@@ -68,7 +70,7 @@ class PostManager:
 		except Exception, e:
 			raise PostException(cause=e)
 
-		send_feeds.delay(author.id, tid, post.pid, FTYPE_REPLY)
+		thread_feeds.delay(author.id, tid, post.pid, FTYPE_REPLY, at_users)
 		return  post
 
 	def get_thread_posts(self, tid, start, count) :

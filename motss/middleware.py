@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect, HttpResponse, HttpResponseServerEr
 from django.template import Context, loader
 from member.exceptions import UserException, DuplicateException, \
 	RegisterException, NoUserLoginException, WrongPasswordException,\
-	FollowNoUserException, FollowedException, FollowDeniedException
+	NoSuchUserException, FollowedException, FollowDeniedException
 from post.exceptions import PostException, IllegalContentException, \
 	NoSuchThreadException, ThreadDeletedException, ThreadClosedException, \
 	AttachOverSizedException, AttachUnsupportException
