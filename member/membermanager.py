@@ -2,6 +2,7 @@ from django.db import transaction
 from member.models import MotssUser, MotssProfile, MotssFollow
 from django.db import IntegrityError
 from django.db.models import F
+from django.contrib.auth import authenticate
 from member.exceptions import UserException, DuplicateException, \
 	RegisterException, NoUserLoginException, WrongPasswordException,\
 	NoSuchUserException, FollowedException, FollowDeniedException,\
@@ -17,6 +18,17 @@ class MemberManager:
 			raise NoSuchUserException(cause=error, username=username)
 		else :
 			raise UserException(cause=error)
+
+	def authenticate(self, username, password):
+		rq = MotssUser.objects.filter(username=username)
+		if not rq.exists():
+			raise NoSuchUserException(username=username)
+
+		user = authenticate(username=username, password=password)
+		if user is None:
+			raise WrongPasswordException()
+
+		return user
 
 	@transaction.commit_on_success
 	def follow(self, user, follow_id):

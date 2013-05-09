@@ -1,0 +1,312 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/static/scripts/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/static/scripts/login.js"></script>
+<script type="text/javascript" src="/static/scripts/jquery.cookie.js"></script>
+<title>MOTSS</title>
+<style type="text/css">
+body, input, button, textarea, select {
+font: normal 12px/1.667 Tahoma,Arial,"宋体b8b\4f53",sans-serif;
+color: #333;
+}
+div {
+	display:block;
+}
+ul {
+margin: 0px;
+padding: 0px;
+}
+li {
+	display:block;
+	list-style:none;
+	margin: 0px;
+    padding: 0px;
+}
+a:link { text-decoration: none;
+color:#000;}
+a:active { text-decoration: none;
+color:#000;}
+a:hover { text-decoration: none;
+color:#000;} 
+a:visited {text-decoration: none;
+color:#000;}
+body {
+	padding:0;
+	margin:0;
+	background-color: #666;
+	background-attachment: fixed;
+	background-image: url(Images/bgi/bgi1.jpg);
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+#header {
+	height: 58px;
+	width: 100%;
+	background-color: #2e2e2e;
+	box-shadow:0px 1px 1px rgba(0,0,0,.5);
+	z-index:99;
+}
+#headercenter {
+	width:928px;
+	height:58px;
+	margin-left:auto;
+	margin-right:auto;
+	background-color:#2e2e2e;
+}
+#motsslogo {
+	width:247px;
+	height:58px;
+	float:left;
+}
+#trbar ul {
+	float:right;
+	margin-top:28px;
+}
+#trbar ul li {
+	float:left;
+	width:42px;
+	text-align:right;
+}
+#trbar ul li a{
+	font-size:16px;
+	font-family:"微软雅黑", "宋体";
+	color:#CCC;
+}
+#trbar ul li a:hover{
+	font-size:16px;
+	font-family:"微软雅黑", "宋体";
+	color:#CCC;
+}
+#trbar ul li a:current{
+	font-size:16px;
+	font-family:"微软雅黑", "宋体";
+	color:#CCC;
+}
+#trbar ul li a:active{
+	font-size:16px;
+	font-family:"微软雅黑", "宋体";
+	color:#CCC;
+}
+#trbar ul li a:visited{
+	font-size:16px;
+	font-family:"微软雅黑", "宋体";
+	color:#CCC;
+}
+#center {
+	position:relative;
+	width:928px;
+	margin-right: auto;
+	margin-left: auto;
+}
+#loginbox {
+	position:absolute;
+	display:block;
+	margin:120px 0 0 700px;
+	float:right;
+	width:208px;
+	padding:20px 20px 10px 20px;
+	background-image: url(Images/Alpha50.png);
+	/* Gecko browsers */
+    -moz-border-radius:3px; 
+/* Webkit browsers */
+    -webkit-border-radius:3px; 
+/* W3C syntax - likely to be standard so use for future proofing */
+    border-radius:3px;
+}
+#rgbox {
+	position:absolute;
+	margin:120px 0 0 700px;
+	display:none;
+	float:right;
+	width:208px;
+	padding:20px 20px 10px 20px;
+	background-image: url(Images/Alpha50.png);
+	/* Gecko browsers */
+    -moz-border-radius:3px; 
+/* Webkit browsers */
+    -webkit-border-radius:3px; 
+/* W3C syntax - likely to be standard so use for future proofing */
+    border-radius:3px;
+}
+.lb1 {
+	font-family:"微软雅黑", "宋体";
+	font-size:14px;
+	margin-bottom:12px;
+	color:#FFF;
+	text-shadow:1px 1px 2px #333;
+}
+#lb12 {
+	margin-left:8px;
+}
+#lb21 {
+}
+#lb22 {
+	margin-left:74px;
+	color:#f3f468;
+}
+#btn_login {
+	text-shadow:0 0 0;
+	display:inline-block;
+	width:32px;
+	height:32px;
+	background-color:#85d659;
+	padding-left:14px;
+	padding-right:14px;
+/* Gecko browsers */
+    -moz-border-radius:3px; 
+/* Webkit browsers */
+    -webkit-border-radius:3px; 
+/* W3C syntax - likely to be standard so use for future proofing */
+    border-radius:3px;
+	color:#FFF;
+	font-size:16px;
+	font-family:"微软雅黑", "宋体";
+	line-height:2;
+}
+#login_username, #login_password {color:#fff;}
+
+#alinput {
+}
+.lbinw {
+	width:208px;
+	height:28px;
+	background-color:#333;
+	border:0px;
+}
+.olgl {
+	margin-right:8px;
+	display:none;
+	float:left;
+}
+#lbinwyz {
+	width:110px;
+}
+#yzmp {
+	display:inline-block;
+	width:85px;
+	height:28px;
+	background-color:#000;
+	position:absolute;
+	margin:0px 10px 0 14px;
+}
+#rbpw {
+	width:130px;
+}
+#btn_rg {
+	margin-left:16px;
+	display:inline-block;
+	width:32px;
+	height:32px;
+	background-color:#f3f468;
+	padding-left:14px;
+	padding-right:14px;
+/* Gecko browsers */
+    -moz-border-radius:3px; 
+/* Webkit browsers */
+    -webkit-border-radius:3px; 
+/* W3C syntax - likely to be standard so use for future proofing */
+    border-radius:3px;
+	color:#FFF;
+	font-size:16px;
+	font-family:"微软雅黑", "宋体";
+	line-height:2;
+}
+#lginr {
+	font-family:"微软雅黑", "宋体";
+	color:#85d659;
+	font-size:16px;
+	position:absolute;
+	width:16px;
+	margin:80px 0 0 230px;
+}
+#indexp {
+	position:absolute;
+	margin:520px 0 0 0px;
+	color:#FFF;
+	font-family:"微软雅黑", "宋体";
+	font-size:16px;
+	text-shadow:1px 1px 2px #333;
+}
+.rp {
+	display:none;
+}
+#footer {
+	position:absolute;
+	right:10%;
+	bottom:10%;
+	float:right;
+	text-shadow:1px 1px 2px #333;
+}
+#footer ul li {
+	display:block;
+	padding-left:14px;
+	float:right;
+	font-family:"微软雅黑", "宋体";
+	font-size:12px;
+	color:#FFF;
+	text-shadow:1px 1px 2px #333;
+}
+</style>
+
+</head>
+
+<body>
+
+<div id="header">
+	<div id="headercenter">
+		<div id="motsslogo"><img src="Images/motsslogo.png" width="247" height="58" alt="" /></div>
+        <div id="trbar">
+   	  <ul>
+            	<li><a href="#">新闻</a></li>
+                <li><a href="#">活动</a></li>
+                <li><a href="#">交友</a></li>
+                <li><a href="#">灌水</a></li>
+                <li><a href="#">出柜</a></li>
+                <li><a href="#">帅哥</a></li>
+          </ul>
+        </div>
+	</div>
+</div>
+<div id="center">
+<div id="indexp">2012.11.24 MOTSS大毅行 @如意尖 >>></div>
+
+<div id="loginbox">
+   	  <div class="lb1"><input id="login_username" name="username" class="lbinw" type="text" /></div>
+        <div class="lb1"><input id="login_password" name="password" class="lbinw" type="password" /></div>
+        <div class="lb1">
+        	 <span id="btn_login">登录</span>
+             <span id="lb11"><input name="autologin" id="alinput" type="checkbox" value="" />自动登录</span>
+          <span id="lb12">找回密码</span>
+        </div>
+<div class="lb1">
+        	<span id="lb21">其他帐号登入</span><span id="lb22">>>注册</span>
+   	  </div>
+	  <div class="lb1"><img class="olgl" src="Images/weibologin.png" width="22" height="18" /><img class="olgl" src="Images/qqlogin.png" width="22" height="18" /></div>
+    </div>
+
+
+<div id="rgbox">
+		<div id="lginr"><img src="Images/login2.png" width="16" height="53" /></div>
+   	  <div class="lb1"><input name="" class="lbinw" type="text" /></div>
+      <div class="lb1"><input name="" class="lbinw" id="lbinwyz" type="text" /><span id="yzmp"><img src="Images/yz/yz1.jpg" width="85" height="34" /></span>
+      </div>
+      <div class="lb1"><input name="" class="lbinw" id="rbpw" type="password" /><span id="btn_rg">注册</span></div>	 
+	  <div class="lb1"><img class="olgl" src="Images/weibologin.png" width="22" height="18" /><img class="olgl" src="Images/qqlogin.png" width="22" height="18" /></div>
+  <div class="lb1"><p class="rp">注册成功！</p></div>
+    <div class="lb1"><p class="rp">请到邮箱验证</p></div>
+    </div>
+
+
+</div>
+	<div id="footer">
+    	<ul>
+        	<li>备案信息</li>
+            <li>版权信息</li>
+            <li>关于MOTSS</li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
