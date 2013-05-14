@@ -1,3 +1,5 @@
+var csrftoken = "";
+
 $(document).ready(function(){
   // 注册转换
   $("#lb22").click(function(){
@@ -29,15 +31,17 @@ $(document).ready(function(){
   $("#btn_rg").click(function(){
     $(".rp").show(100);
   });
+
+  csrftoken = $.cookie('csrftoken');
 });
 
 function login() {
   var username = $("#login_username").val();
   var password = $("#login_password").val();
-  var csrftoken = $.cookie('csrftoken');
  
   $.ajax({
-    url : "/member/dologin",
+    type: "POST",
+    url : "/member/dologin/",
     data : {
       'username' : username,
       'password' : password,
@@ -53,13 +57,4 @@ function login() {
       alert("error:"+$.parseJSON(xhr.responseText).msg)
     } 
   });
-
- /*
-  $.post("/member/dologin", {
-      'username' : username,
-      'password' : password,
-      'csrfmiddlewaretoken' : csrftoken
-    }, function(data) {
-
-    });*/
 }
