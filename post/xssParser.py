@@ -18,7 +18,8 @@ class XssParser(HTMLParser):
         self.at_users = []
 
         self.permitted_tags = ['a', 'b', 'blockquote', 'br', 'i', 
-        					'li', 'ol', 'ul', 'p', 'cite', 'span']
+        					'li', 'ol', 'ul', 'p', 'cite', 'span',
+                            'font', 'strike', 'div']
 
         self.requires_no_close = ['img', 'br']
 
@@ -26,7 +27,9 @@ class XssParser(HTMLParser):
             {'a':['href','title', 'style'],
              'img':['src', 'width', 'height'],
              'blockquote':['type'],
-             'span':['style']}
+             'span':['style'],
+             'font':['color'],
+             'div' :['style']}
 
         self.allowed_schemes = ['http','https','ftp']
 

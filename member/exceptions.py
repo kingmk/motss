@@ -7,7 +7,8 @@ USER_ERRCODE = {
 	5 : 'The user does not exist.', # NoSuchUserException
 	6 : 'The user has already been followed.', # FollowedException
 	7 : 'The user forbid others to follow him.', # FollowDeniedException
-	8 : 'Cannot follow yourself.' # FollowSelfException
+	8 : 'Cannot follow yourself.', # FollowSelfException
+	9 : 'Login required.' #LoginRequiredException
 }
 
 class UserException(Exception):
@@ -69,3 +70,9 @@ class FollowSelfException(UserException):
 	def __init__(self, cause=None):
 		msg = USER_ERRCODE[self.code]
 		super(FollowSelfException, self).__init__(msg, cause)
+
+class LoginRequiredException(UserException):
+	code = 9
+	def __init__(self, cause=None):
+		msg = USER_ERRCODE[self.code]
+		super(LoginRequiredException, self).__init__(msg, cause)

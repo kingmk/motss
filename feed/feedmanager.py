@@ -13,6 +13,7 @@ class FeedManager(object):
 	def thread_feeds(self, sender_id, thread_id, post_id, ftype, at_users=[]):
 		follows = MotssFollow.objects.filter(follow_id=sender_id)
 		follower_ids = []
+		follower_ids.append(sender_id)
 		for follow in follows:
 			follower_ids.append(follow.user_id)
 
@@ -41,7 +42,6 @@ class FeedManager(object):
 				post_id=post_id, ftype=ftype, feed_at=f_at)
 			insert_feeds.append(feed)
 
-		print at_ids
 		for at_id in at_ids:
 			feed = Feed(recvid=at_id, sendid=sender_id, thread_id=thread_id, \
 				post_id=post_id, ftype=ftype, feed_at=True)

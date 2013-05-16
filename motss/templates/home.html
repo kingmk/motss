@@ -2,8 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="{{ STATIC_URL }}scripts/jquery-1.9.1.min.js"></script>
 <link href="{{ STATIC_URL }}styles/outline.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="{{ STATIC_URL }}scripts/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}scripts/jquery.cookie.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}scripts/home.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}scripts/nicEdit.js"></script>
 <title>MOTSS</title>
 
 </head>
@@ -14,11 +17,21 @@
 	</div>
 	<div class="bd">
 		<div class="bd_main">
-			<div class="mn_nav">
-				<div class="mn_nav_item"></div>
-				<div class="mn_nav_item"></div>
-				<div class="mn_nav_item"></div>
-				<div class="mn_nav_item mn_nav_r"></div>
+			<div class="mn_publish">
+				<div class="mn_pub_icon"></div>
+				<div id="pub_thread" class="mn_pub_item">发帖子</div>
+				<div id="pub_activity" class="mn_pub_item">发活动</div>
+				<div id="thread_form" class="mn_pub_thread" style="display:none">
+					<div class="th_input"><input id="th_title" class="help" type="text" value="标题（可不填）"/></div>
+					<div id="th_content"></div>
+					<div class="th_imagebar"></div>
+					<div class="th_tag"><input id="th_tags" class="help" type="text" value="标签（用空格分开）"/></div>
+					<div class="th_buttonbar">
+						<span id="th_submit">发布</span>
+						<span id="th_preview">预览</span>
+						<span id="th_cancel">取消</span>
+					</div>
+				</div>
 			</div>
 			<a class="mn_banner" style="background:url(/static/images/banner.png)"></a>
 			<div class="thrd">

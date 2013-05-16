@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect, HttpResponse, HttpResponseServerEr
 from django.template import Context, loader
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from member.models import MotssUser
 from member.membermanager import MemberManager
 import json
@@ -20,13 +20,19 @@ def viewlogin(request):
 	return render(request,'login.html')
 
 def dologin(request):
-	username = request.REQUEST['username']
-	password = request.REQUEST['password']
+	username = request.POST['username']
+	password = request.POST['password']
 
 	member_manager = MemberManager()
 	user = member_manager.authenticate(username=username, password=password)
 	user.loginip = get_client_ip(request)
 	login(request, user)
+	response_data = {}
+	response_data['code'] = 0
+	return HttpResponse(json.dumps(response_data), mimetype="application/json")
+
+def dologout(request):
+	logout(request)
 	response_data = {}
 	response_data['code'] = 0
 	return HttpResponse(json.dumps(response_data), mimetype="application/json")

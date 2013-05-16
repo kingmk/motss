@@ -25,7 +25,7 @@ class PostManager:
 		post = Post(author=author, authorip=author.loginip, \
 			subject=subject, message=message, position=0, hasattach=hasAttach, \
 			readperm=readperm)
-		thread = Thread(author=author, subject=subject, abstract=post.getAbstract(), \
+		thread = Thread(author=author, subject=subject, abstract="abstract", \
 			hasattach=hasAttach, tags=tags)
 		try :
 			thread.save()
