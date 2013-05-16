@@ -2,14 +2,58 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="/static/scripts/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="/static/scripts/login.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}scripts/jquery-1.9.1.min.js"></script>
+<link href="{{ STATIC_URL }}styles/outline.css" type="text/css" rel="stylesheet">
 <title>MOTSS</title>
 
 </head>
 
 <body>
-HOME!<br/>
-user : {{ user }}
+	<div class="hd_bar">
+		<div class="hd_center" style="background-color:#999"></div>
+	</div>
+	<div class="bd">
+		<div class="bd_main">
+			<div class="mn_nav">
+				<div class="mn_nav_item"></div>
+				<div class="mn_nav_item"></div>
+				<div class="mn_nav_item"></div>
+				<div class="mn_nav_item mn_nav_r"></div>
+			</div>
+			<a class="mn_banner" style="background:url(/static/images/banner.png)"></a>
+			<div class="thrd">
+				<div class="avatar"><img src="{{ STATIC_URL }}images/avatar_el.jpg"/></div>
+				<div class="post">
+					<div class="hd"><span class="lft">EL</span><span class="rgt">前天 22:22</span></div>
+					<div class="title">自从在寝室里出了柜，再也不用顾虑了</div>
+					<div class="content">自从在寝室里出了柜，再也不用顾虑在寝室里水人人水微博时候高呼：“哇，这男的长的不错啊！”<br/>自从在寝室里出了柜，也可以对对床的那货说：“你开视频了吗，没开的话我要看部GV。”<br/>自从在寝室里出了柜，也可以给他们科普homo方面的知识，除了sex更多的还有圈子里的正面负面的现状，同志权益，以及homo对异性的感觉等等。</div>
+					<div class="btm">
+						<span class="lft">吐槽  出柜  宿舍</span>
+						<span class="rgt" style="width:14px; height:14px; background-color:#99e; display:block;"></span>
+						<span class="rgt" style="width:14px; height:14px; background-color:#9e9; display:block;"></span>
+						<span class="rgt"><b>56</b> / 382</span>
+						<span class="rgt">kiokio等6个好友刚刚回复</span>
+					</div>
+				</div>
+			</div>
+			<div class="thrd">
+				<div class="avatar"><img src="{{ STATIC_URL }}images/avatar_kiokio.jpg"/></div>
+				<div class="post">
+					<div class="hd"><span class="lft">kiokio</span><span class="rgt">前天 20:33</span></div>
+					<div class="title">夏夜漫漫，不如去听海象先生。</div>
+					<div class="content"><div class="img"><img src="/static/images/sample_post.jpg" width="100"/></div>海象先生是谁？<br/>据说是当代最好的acoustic britpop。<br/>什么是acoustic britpop？我！不！！知！！！道！！！！</br>反正我只知道海象先生很萌很可爱！！！！不信你就看照片啊，看啊！！！</div>
+					<div class="btm">
+						<span class="lft">其他交友</span>
+						<span class="rgt" style="width:14px; height:14px; background-color:#99e; display:block;"></span>
+						<span class="rgt" style="width:14px; height:14px; background-color:#9e9; display:block;"></span>
+						<span class="rgt"><b>56</b> / 382</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="bd_side" style="height:300px; background-color:#c88">
+		</div>
+	</div>
+
 </body>
 </html>

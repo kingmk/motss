@@ -1,3 +1,19 @@
-<b>Test page!!!</b>
-{% load staticfiles %}
-<img src="{% static "images/mlistimg.jpg" %}"/>
+<html>
+<head>
+	<title>Motss Test</title>
+	<script src="{{ STATIC_URL }}scripts/nicEdit.js" type="text/javascript"></script>
+</head>
+<body>
+<div>
+	<b>Test page!!!</b>
+	<img src="{{ STATIC_URL }}images/avatar_el.jpg"/>
+</div>
+<script type="text/javascript">
+bkLib.onDomLoaded(function() {
+	new nicEditor({iconsPath : '{{ STATIC_URL }}images/nicEditorIcons.gif', buttonList : ['bold', 'italic', 'strikethrough', 'forecolor', 'left', 'center', 'right', 'link', 'unlink', 'emotion', 'video', 'music'], maxHeight: 60}).panelInstance('richtext');
+});
+</script>
+<div id="richtext" style="width:400px; height:100px; border:1px solid #777; overflow:auto"></div>
+
+</body>
+</html>

@@ -20,7 +20,6 @@ def viewlogin(request):
 	return render(request,'login.html')
 
 def dologin(request):
-	print request.method
 	username = request.REQUEST['username']
 	password = request.REQUEST['password']
 
